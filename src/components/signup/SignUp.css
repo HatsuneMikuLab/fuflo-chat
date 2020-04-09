@@ -1,0 +1,76 @@
+.c-form {
+    width: 400px;
+    margin: 50px auto;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+.c-form h2 {
+    font: 600 16px/32px Lato, serif;
+}
+
+.c-submit-btn {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+    font: 600 16px/32px Lato, serif;
+    background-color: transparent;
+    border: 1px solid #777;
+    cursor: pointer;
+}
+
+.c-submit-btn span {
+    padding-left: 25px;
+}
+
+.c-input svg, .c-submit-btn svg {
+    position: absolute;
+    height: 100%;
+    color: #777;
+}
+
+.c-input {
+    position: relative;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #2c2c2c;
+}
+
+.c-input.c-invalid {
+    border-bottom: none;
+}
+
+@keyframes underline {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+.c-input.c-invalid .c-animation-underline {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: #bb2200;
+    animation: underline 1.2s forwards;
+}
+
+.c-input.c-invalid svg {
+    color: #bb2200;
+}
+
+label {
+    display: block;
+    font: 400 14px/28px Lato, serif;
+    margin-bottom: 5px;
+    text-transform: capitalize;
+}
+
+.c-input input {
+    width: calc(100% - 25px);
+    padding-left: 25px;
+    font: 400 14px/28px Lato, serif;
+}
+
+.c-input span {
+    color: #bb2200;
+}

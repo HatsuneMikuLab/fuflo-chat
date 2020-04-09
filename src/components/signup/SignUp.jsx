@@ -1,8 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormData } from '../../hooks/useFormData';
+import { GoMail, GoPerson, GoKey, GoPlug } from 'react-icons/go';
+
+import './SignUp.css'
 
 export const SignUp = () => {
-    const { valuesMap, errorsMap, changeHandler, focusHandler, blurHandler, submitHandler } = useFormData(
+    const inputMap = {
+        email: {
+            type: 'email',
+            label: 'Email',
+            icon: <GoMail />
+        },
+        nickname: {
+            type: 'text',
+            label: 'Nickname',
+            icon: <GoPerson />
+        },
+        password: {
+            type: 'password',
+            label: 'Password',
+            icon: <GoKey />
+        },
+        repeatPassword: {
+            type: 'password',
+            label: 'Repeat Password',
+            icon: <GoKey />
+        }
+    }
+
+    const { valueMap, validationMap, readyFieldMap, initHandler,
+    changeHandler, focusHandler, blurHandler, submitHandler } = useFormData(
         {
             email: value => !value ? 'Email is required field.' 
                 : !/\S+@\S+\.\S+/g.test(value) ? `${value} is not a valid email.` : true,
@@ -15,38 +42,41 @@ export const SignUp = () => {
                 : true,
             repeatPassword: (value, { password }) => password !== value ? 'Password does not match' : true 
         },
-        formData => fetch({
-            method: 'POST',
-            headers: { 
-                'content-type': 'application/json',
-                'authorization': `Bearer ${localStorage.getItem('accessToken') }` 
-            },
-            body: JSON.stringify(formData)
-        })
+        formData => window.location.replace('https://developers.google.com/')
+    );
+
+    useEffect(() => { initHandler() }, []);
+
+    const inputs = Object.keys(inputMap).map(
+        (key, i) => 
+        <React.Fragment key = { i }>
+            <label>{ inputMap[key].label }</label>
+            <div className = { `c-input ${typeof validationMap[key] === 'string' && readyFieldMap[key] ? 'c-invalid' : 'c-valid'}` }>
+                { inputMap[key].icon }
+                <input 
+                    type = { inputMap[key].type }
+                    name = { key }
+                    value = { valueMap[key] || '' }
+                    onChange = { changeHandler }
+                    onFocus = { focusHandler }
+                    onBlur = { blurHandler }
+                />
+                <div className = "c-animation-underline"></div>
+            </div>
+            <span>{ readyFieldMap[key] ? validationMap[key] : '' }</span>
+        </React.Fragment>
     );
 
     return (
-        <>
+        <div className = "c-form">
             <h2>Sign Up</h2>
-            <form onSubmit = { submitHandler }>
-                <input 
-                    type = 'email'
-                    name = 'email'
-                    value = { valuesMap.email || '' }
-                    onChange = { changeHandler }
-                    onFocus = { focusHandler }
-                    onBlur = { blurHandler }
-                />
-                <input 
-                    type = 'text'
-                    name = 'nickname'
-                    value = { valuesMap.nickname || '' }
-                    onChange = { changeHandler }
-                    onFocus = { focusHandler }
-                    onBlur = { blurHandler }
-                />
+            <form onSubmit = { submitHandler } noValidate>
+                { inputs }
+                <button type = "submit" className = "c-submit-btn">
+                    <GoPlug />
+                    <span>Connect</span>
+                </button>
             </form>
-        </>
+        </div>
     )
 }
-
