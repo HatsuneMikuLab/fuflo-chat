@@ -17,7 +17,7 @@ export const SmartForm = ({ children, title }) => {
 
     const { valueMap, validationResultMap, readyFieldMap, 
     initHandler, changeHandler, focusHandler, blurHandler, submitHandler } = 
-        useFormData(validationMap, formData => alert(formData)); 
+        useFormData(validationMap, formData => alert(JSON.stringify(formData))); 
     
     const fields = childNodes
         .filter(({ type }) => type === 'input' || type === 'button')
